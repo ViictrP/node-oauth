@@ -1,7 +1,8 @@
 #==== FOLDERS =====
 dist
 node_modules
-.vscode
+.vscode/
+.idea
 
 #==== FILES =====
 package-lock.json
