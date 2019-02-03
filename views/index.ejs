@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Node OAuth API</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <base href="/">
+</head>
+<body>
+
+    <div class="row">
+        <div class="col s5"></div>
+        <form class="col s2" action="/show" method="POST">
+            <h4>Registrar<br />
+                <small>Entre com usuário e senha para gerar um token de acesso.</small>
+            <h4>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="first_name" type="text" name="username" class="validate">
+                    <label for="first_name">Nome de usuário</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="last_name" type="password" name="password" class="validate">
+                    <label for="last_name">Senha</label>
+                </div>
+                <div class="col s12">
+                    <div class="col s4"></div>
+                    <div class="col s4"></div>
+                    <div style="text-align: right;" class="col s4">
+                        <button class="waves-effect waves-light btn">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col s5"></div>
+    </div>
+
+</body>
+</html>

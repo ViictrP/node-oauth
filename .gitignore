@@ -1,1 +1,6 @@
-./dist
+#==== FOLDERS =====
+dist
+node_modules
+
+#==== FILES =====
+package-lock.json
