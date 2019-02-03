@@ -1,0 +1,27 @@
+{
+  "name": "node-oauth",
+  "version": "1.0.0",
+  "description": "Node Restful OAtuh API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViictrP/node-oauth.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "restful",
+    "API",
+    "OAuth",
+    "JWT"
+  ],
+  "author": "Victor Prado @ViictrP",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ViictrP/node-oauth/issues"
+  },
+  "homepage": "https://github.com/ViictrP/node-oauth#readme"
+}
