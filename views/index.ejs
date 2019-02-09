@@ -7,35 +7,73 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <base href="/">
 </head>
 <body>
-
-    <div class="row">
-        <div class="col s5"></div>
-        <form class="col s2" action="/show" method="POST">
-            <h4>Registrar<br />
-                <small>Entre com usuário e senha para gerar um token de acesso.</small>
-            <h4>
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="first_name" type="text" name="username" class="validate">
-                    <label for="first_name">Nome de usuário</label>
-                </div>
-                <div class="input-field col s12">
-                    <input id="last_name" type="password" name="password" class="validate">
-                    <label for="last_name">Senha</label>
-                </div>
-                <div class="col s12">
-                    <div class="col s4"></div>
-                    <div class="col s4"></div>
-                    <div style="text-align: right;" class="col s4">
-                        <button class="waves-effect waves-light btn">Submit</button>
+    <div class="form-card">
+        <div class="form-login">
+                <img src="https://img.icons8.com/nolan/64/000000/person-male.png">
+                <p class="form-desc">Acesse o sistema com seu e-mail e senha.</p>
+                <form class="col s2" action="/show" method="POST">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="first_name" type="text" name="username" class="validate">
+                            <label for="first_name">Nome de usuário</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">visibility_off</i>
+                            <input id="last_name" type="password" name="password" class="validate">
+                            <label for="last_name">Senha</label>
+                        </div>
+                        <div class="col s12">
+                            <div class="col s4"></div>
+                            <div class="col s4"></div>
+                            <div style="text-align: center; margin: 10px 0;" class="col s12">
+                                <button class="waves-effect waves-light btn">
+                                    <i class="material-icons left">done</i>
+                                    Entrar
+                                </button>
+                            </div>
+                            <div class="col s12">
+                                    <p>Não possui uma conta? <a href="#">Clique aqui</a> e se cadastre!</p>
+                                </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </form>
-        <div class="col s5"></div>
+                </form>
+        </div>
+        <div style="display: none;" class="form-register">
+                <img src="https://img.icons8.com/nolan/64/000000/person-male.png">
+                <p class="form-desc">Acesse o sistema com sua conta de usuário e senha.</p>
+                <form class="col s2" action="/show" method="POST">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="first_name" type="text" name="username" class="validate">
+                            <label for="first_name">Nome de usuário</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">visibility_off</i>
+                            <input id="last_name" type="password" name="password" class="validate">
+                            <label for="last_name">Senha</label>
+                        </div>
+                        <div class="col s12">
+                            <div class="col s4"></div>
+                            <div class="col s4"></div>
+                            <div style="text-align: center; margin: 10px 0;" class="col s12">
+                                <button class="waves-effect waves-light btn">
+                                    <i class="material-icons left">done</i>
+                                    Entrar
+                                </button>
+                            </div>
+                            <div class="col s12">
+                                    <p>Não possui uma conta? <a href="#">Clique aqui</a> e se cadastre!</p>
+                                </div>
+                        </div>
+                    </div>
+                </form>
+        </div>
     </div>
 
 </body>

@@ -5,71 +5,93 @@ import mongoose from 'mongoose';
 import User from './model/user';
 import jwt from 'jsonwebtoken';
 import oauthUtils from './utils/oauthUtils';
+import bcrypt from 'bcrypt';
 
 // APP
 const app = express();
+const router = express.Router();
+const BCRYPT_INDEX = 10;
 
 // MONGODB CONNECTION
 mongoose.connect('mongodb://localhost:27017/node-oauth-db', { useNewUrlParser: true });
 const db = mongoose.connection;
-db.on('error', () => console.error.bind(console, 'connetion error:'));
+db.on('error', (err) => console.log('Conexão com database falhou', err));
 
 // CONFIG
 app.set('view engine', 'ejs');
 app.use(express.static('views/assets'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use('/auth', router);
 
 // ROUTES
 /**
  * HOME
  */
-app.get('/', (req, res) => res.render('index.ejs'));
+router.get('/', (req, res) => res.render('index.ejs'));
 
 /**
  * OAUTH REQUEST
  */
-app.post('/oauth/token', (req, res) => {
-    User.find({ username: req.body.username }, (err, user) => {
+router.post('/oauth/token', getUser, (req, res) => {
+    const userDTO = req.user;
+    User.findOne({ username: userDTO.username }, (err, user) => {
         if (err) res.send(err);
-        const u = user[0];
-        const userJwt = { username: u.username };
-        jwt.sign({ user: userJwt }, 'secret_key', { expiresIn: '30s' }, (err, token) => {
-            if (err) {
-                res.status(500).send('System error');
-                return;
+        if (user) {
+            if (bcrypt.compareSync(userDTO.password, user.password)) {
+                jwt.sign({ user: user }, 'secret_key', { expiresIn: '3600s' }, (err, token) => {
+                    if (err) {
+                        res.status(500).send('System error');
+                        return;
+                    }
+                    res.json({
+                        "access_token": token,
+                        "user": {
+                            "id": user._id,
+                            "email": user.email,
+                            "name": user.name 
+                        }
+                    });
+                });
+            } else {
+                res.status(422).send('Username or password is invalid');
             }
-            res.json({
-                token
-            });
-        });
+        } else {
+            res.status(404).send('User doesn\'t exist');
+        }
     });
 });
 
 /**
  * SAVE USERS
  */
-app.post('/users', (req, res) => {
-    console.log('AUTHENTICATION INITIALIZED');
-    const user = new User();
-    user.username = req.body.username;
-    user.password = req.body.password;
-    user.save((err, usr) => {
-        if (err) res.send(500, err);
-        res.send(201, usr);
-    });
-    console.log('AUTHENTICATION FINALIZED');
+router.post('/users', getUser, (req, res) => {
+    console.log('CREATING USER');
+    const user = req.user;
+    const success = validateUser(user);
+    if (success) {
+        user.password = bcrypt.hashSync(user.password, BCRYPT_INDEX);
+        user.save((err, usr) => {
+            if (err) res.send(500, err);
+            console.log('USER CREATED');
+            res.status(201).json(usr);
+        });
+    } else {
+        console.log('CREATING USER FAILED');
+        res.status(422).send('User is invalid');
+    }
+    
 });
 
 /**
  * USERS
  */
-app.get('/users', oauthUtils.verifyToken, (req, res) => {
+router.get('/users', oauthUtils.verifyToken, (req, res) => {
     jwt.verify(req.token, 'secret_key', (err, authData) => {
         if (err) res.send(err);
         User.find((err, users) => { 
             if (err) res.send(err);
-            res.send(200, users);
+            res.status(200).send(users);
         });
     });
 });
@@ -77,13 +99,35 @@ app.get('/users', oauthUtils.verifyToken, (req, res) => {
 /**
  * USER INFO BY USERNAME
  */
-app.get('/users/:username', (req, res) => {
+router.get('/users/:username', oauthUtils.verifyToken, (req, res) => {
     User.find({ username: req.params.username }, (err, user) => {
         if (err) res.send(err);
         res.send(200, user);
     });
 });
 
+
+//UTILS
+function getUser (req, res, next) {
+    const body = req.body;
+    if (!body) res.status(422).send('User is null');
+    var user = new User();
+    user.name = body.name;
+    user.email = body.email;
+    user.username = body.email;
+    user.password = body.password;
+    req.user = user;
+    next();
+}
+
+function validateUser(user) {
+    var success = true;
+    if (!user.name) success = false;
+    if (!user.email) success = false;
+    if (!user.username) success = false;
+    if (!user.password) success = false;
+    return success;
+}
 
 // INITIALIZE SERVER
 db.once('open', () => app.listen(environment.port, () => console.log("Server running on " + environment.port)));

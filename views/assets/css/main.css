@@ -1,10 +1,27 @@
 body {
-    background-color: #333;
-    color: #FFF;
+    overflow: hidden;
+    background-color: #CCC;
 }
 
 input {
     color: #FFF;
     font-weight: 600;
     font-size: 2em;
+}
+
+.form-card {
+    width: 20%;
+    margin: 0 auto;
+    background-color: #FFF;
+    margin-top: 5%;
+    padding: 20px 35px;
+    border-radius: 15px;
+    height: auto;
+    color: #333;
+    text-align: center;
+}
+
+.form-desc {
+    font-weight: 900;
+    color: #676767;
 }

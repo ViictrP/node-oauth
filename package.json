@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/ViictrP/node-oauth#readme",
   "dependencies": {
+    "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
